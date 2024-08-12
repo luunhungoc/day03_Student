@@ -1,27 +1,29 @@
-package dependencyinjection;
+package autowired;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pojobeans.Student;
 import pojobeans.StudentRepository;
 import pojobeans.StudentService;
 
-public class StudentServiceSetterImpl implements StudentService {
+@Service("studentService")
+public class StudentServiceImplLifeCycle implements StudentService {
+    @Autowired
     private StudentRepository studentRepository;
-    public void setStudentRepository(StudentRepository studentRepository){
-        this.studentRepository=studentRepository;
-    }
-
-    public void insertStudent(long id){
+    @Override
+    public void insertStudent(long id, String lastName, String firstName, double age, String address) {
         Student student= new Student();
-
-        student.setLastName(student.getLastName());
-        student.setFirstName(student.getFirstName());
-        student.setAge(student.getAge());
-        student.setAddress(student.getAddress());
-
+        student.setId(id);
+        student.setLastName(lastName);
+        student.setFirstName(firstName);
+        student.setAge(age);
+        student.setAddress(address);
         studentRepository.insert(student);
     }
 
-@Override
+
+
+    @Override
     public void updateStudent(long id, String address) {
         Student student= studentRepository.find(id);
 
@@ -29,6 +31,7 @@ public class StudentServiceSetterImpl implements StudentService {
 
         studentRepository.update(student);
     }
+
 
     public void deleteStudent(long id) {
         Student student= studentRepository.find(id);
